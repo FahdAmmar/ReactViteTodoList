@@ -3,15 +3,27 @@ import './App.css';
 
 //components
 import TodoList from './components/TodoList';
+import { TodosContext } from './contexts/TodosContext';
+import { useState } from 'react';
 
-// import * as React from 'react';
-import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
+//uuid library
+import { v4 as uuid } from 'uuid';
+
+
+
+const initain = [
+  { id: uuid(), title: "learn mui", completed: false },
+  { id: uuid(), title: "learn tailwind", completed: false },
+  { id: uuid(), title: "learn react", completed: false },]
+
 
 export default function App() {
+  const [todos, setTodos] = useState(initain);
   return (
-    <div  className="App min-h-screen items-center justify-center ">
-      <TodoList />
-    </div>
+    <TodosContext.Provider value={{ todos, setTodos }}>
+      <div className="App min-h-screen items-center justify-center ">
+        <TodoList />
+      </div>
+    </TodosContext.Provider>
   );
 }

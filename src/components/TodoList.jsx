@@ -20,17 +20,14 @@ import TextField from '@mui/material/TextField';
 import { v4 as uuid } from 'uuid';
 
 
-
-const initain = [
-    { id: uuid(), title: "learn mui", completed: false },
-    { id: uuid(), title: "learn tailwind", completed: true },
-    { id: uuid(), title: "learn react", completed: false },]
+import { TodosContext } from "../contexts/TodosContext";
+import { useContext } from "react";
 
 
 
 const TodoList = () => {
 
-    const [todos, setTodos] = useState(initain);
+    const { todos, setTodos } = useContext(TodosContext);
     const [inputTitle, setInputTitle] = useState("")
 
     const todosjsx = todos.map((item) => <Todo key={item.id} todolist={item} handleCheck={handleCheckclick} />)
@@ -38,7 +35,8 @@ const TodoList = () => {
 
     function handleAddclick() {
         const newTodo = { id: uuid(), title: inputTitle, completed: false }
-        setTodos([...todos, newTodo])
+        const updapteTodos = [...todos, newTodo]
+        setTodos(updapteTodos)
         setInputTitle("")
     }
 
