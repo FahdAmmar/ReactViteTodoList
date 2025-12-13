@@ -41,6 +41,7 @@ function Todo({ todolist, handleCheck }) {
             return item;
         });
         setTodos(updatedTodos);
+        localStorage.setItem("todos", JSON.stringify(updatedTodos));
     }
 
     function handleOpenDialogOne() {
@@ -65,7 +66,9 @@ function Todo({ todolist, handleCheck }) {
     function handleDeleteClick() {
         const updatedTodos = todos.filter((item) => item.id !== todolist.id);
         setTodos(updatedTodos);
-        // setOpen(false);
+                localStorage.setItem("todos", JSON.stringify(updatedTodos));
+
+        setOpen(false);
     }
 
     function handleUpdateTile() {
@@ -78,7 +81,8 @@ function Todo({ todolist, handleCheck }) {
         });                      
         setTodos(updatedTodos);
         setInputTitle('');
-        setOpenDialog(false);                                      
+        setOpenDialog(false);        
+        localStorage.setItem("todos", JSON.stringify(updatedTodos));                              
     }
 
 
@@ -169,7 +173,7 @@ function Todo({ todolist, handleCheck }) {
                                     <IconButton
                                         color="success"
                                         onClick={handleCheckclick}
-                                        style={{
+                                        style={{textDecoration: todolist.completed ? "line-through" : "none",
                                             backgroundColor: todolist.completed ? "green" : "white", color: todolist.completed ? 'white' : "green", border: "3px green solid",
                                         }}
                                     >          <CheckIcon fontSize="small" />
@@ -206,7 +210,6 @@ function Todo({ todolist, handleCheck }) {
                                 </Tooltip>
 
                             </ButtonGroup>
-
                         </Grid>
                     </Grid>
                 </CardContent>

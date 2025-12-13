@@ -1,7 +1,9 @@
-import { useState } from "react";
-
+import {useState,useContext,useEffect } from "react";
+//uuid library
+import { v4 as uuid } from 'uuid';
 // Components
 import Todo from "./Todo";
+import { TodosContext } from "../contexts/TodosContext";
 
 
 //Material UI components
@@ -10,36 +12,43 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
+import ToggleButton from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import ButtonGroup from '@mui/material/ButtonGroup';
+import ToggleButtonGroup from '@mui/material/ButtonGroup';
 import SendIcon from '@mui/icons-material/Send';
 import TextField from '@mui/material/TextField';
-
-//uuid library
-import { v4 as uuid } from 'uuid';
-
-
-import { TodosContext } from "../contexts/TodosContext";
-import { useContext } from "react";
-
 
 
 const TodoList = () => {
 
     const { todos, setTodos } = useContext(TodosContext);
     const [inputTitle, setInputTitle] = useState("")
+    const [filter, setFilter] = useState("all");
 
-    const todosjsx = todos.map((item) => <Todo key={item.id} todolist={item} handleCheck={handleCheckclick} />)
-
-
+    
+    useEffect(() => {
+        console.log("this is todos:");
+        const storedTodos = JSON.parse(localStorage.getItem("todos"));
+        setTodos(storedTodos || []);
+    },[]);
+    
+    const checkedTodos = todos.filter((todo) => todo.completed);
+    console.log("Checked todos:", checkedTodos);
+    
+    
     function handleAddclick() {
-        const newTodo = { id: uuid(), title: inputTitle, completed: false }
-        const updapteTodos = [...todos, newTodo]
-        setTodos(updapteTodos)
-        setInputTitle("")
+        if (inputTitle.trim() === "") {
+            return;
+        } else {2
+            const newTodo = { id: uuid(), title: inputTitle, completed: false }
+            const updapteTodos = [...todos, newTodo]
+            setTodos(updapteTodos)
+            localStorage.setItem("todos", JSON.stringify(updapteTodos));
+            setInputTitle("")
+        }
     }
-
+    
     function handleCheckclick(todoid) {
         const updatedTodos = todos.map((item) => {
             if (item.id === todoid) {
@@ -48,13 +57,27 @@ const TodoList = () => {
             return item;
         });
         setTodos(updatedTodos);
+        localStorage.setItem("todos", JSON.stringify(updatedTodos));
+        
+    }
+    
+   
+    const complatedTodos = todos.filter((todo) => todo.completed);
+    const noncomplatedTodos = todos.filter((todo) => !todo.completed);
+    let allTodos=todos
+    if (filter === "com") {
+        allTodos = complatedTodos;
+    } else if (filter === "noncom") {
+        allTodos = noncomplatedTodos;
     }
 
-
+    
+    
+    const todosjsx =allTodos.map((item) => <Todo key={item.id} todolist={item} handleCheck={handleCheckclick} />)
 
     return (
-            <Container className="  mx-auto text-center" maxWidth="sm" sx={{ mt: 5 }} >
-                <Card sx={{ minWidth: 275 }} >
+            <Container className="mx-auto text-center" maxWidth="sm" >
+                <Card sx={{ minWidth: 350}} >
                     <CardContent >
                         <Typography className="text-gray-500" variant="h5">ToDo List ✅</Typography>
                         <Divider sx={{ my: 2 }} />
@@ -64,11 +87,11 @@ const TodoList = () => {
 
 
                         {/* start Buttons filter*/}
-                        <ButtonGroup variant="outlined" color="danger">
-                            <Button>All</Button>
-                            <Button>Complate</Button>
-                            <Button>Not complated</Button>
-                        </ButtonGroup>
+                        <ToggleButtonGroup exclusive value={filter} onClick={(e)=>setFilter(e.target.value)}  sx={{mb: 2 }}>
+                            <ToggleButton value={"all"}>All</ToggleButton>
+                            <ToggleButton value={'com'}>Complate</ToggleButton>
+                            <ToggleButton value={'noncom'}>Not complated</ToggleButton>
+                        </ToggleButtonGroup>
                         {/* End Buttons filter*/}
 
 
@@ -80,7 +103,8 @@ const TodoList = () => {
 
                         {/*Start Add new Todo*/}
                         <Grid container sx={{ mt: 2, display: "flex", alignItems: "center", justifyContent: "center", maxWidth: "885" }} >
-                            <Grid size={4}>   <Button sx={{ padding: ".8rem", background: "rgb(41, 45, 62)" }} variant="contained" endIcon={<SendIcon />} onClick={() => { handleAddclick() }}>
+                            <Grid size={4}>   <Button sx={{ padding: ".8rem", background: "rgb(41, 45, 62)" }} variant="contained" endIcon={<SendIcon />} onClick={() => { handleAddclick() }}
+                            disabled={inputTitle.trim() === "" ? true : false} color="red">
                                 Add
                             </Button></Grid>
                             <Grid size={8}>
