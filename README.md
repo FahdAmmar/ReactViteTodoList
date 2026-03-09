@@ -1,16 +1,128 @@
-# React + Vite
+# 📝 Todo List Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An interactive daily task management application built with **React** and **Material-UI**, featuring a modern interface and ease of use.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
 
-## React Compiler
+| Feature | Description |
+|--------|-------|
+| ➕ Add Tasks | Add new tasks with a button click or via Enter key |
+| ✅ Toggle Completion | Mark tasks as completed or active |
+| ✏️ Edit Tasks | Edit task text at any time |
+| 🗑️ Delete Tasks | Delete individual tasks or all completed ones |
+| 🔍 Smart Filtering | View (All / Active / Completed) with counters |
+| 🎨 Responsive Design | Works on all screen sizes |
+| 🌙 Dark Mode Support | Compatible with Material-UI themes |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```json
+{
+  "React": "18+",
+  "Material-UI": "5+",
+  "TypeScript": "4+",
+  "State Management": "Context API"
+}
+```
+
+---
+
+## 📦 Installation & Setup
+
+```bash
+# 1. Clone the repository
+git clone <repository-url>
+
+# 2. Install dependencies
+npm install
+
+# 3. Start the application
+npm start
+```
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+├── components/
+│   ├── TodoList.tsx      # Main list component
+│   └── Todo.tsx          # Individual task component
+├── contexts/
+│   └── TodosContext.tsx  # Global state management
+├── types/
+│   └── types.ts          # TypeScript definitions
+└── App.tsx               # Entry point
+```
+
+---
+
+## 🎯 How to Use
+
+### Add a Task
+```
+1. Type text in the input field
+2. Press "Add" or Enter key
+```
+
+### Manage Tasks
+| Action | Method |
+|---------|---------|
+| Complete Task | Click the ✓ checkbox next to the task |
+| Edit Task | Click ✏️ icon then save |
+| Delete Task | Click 🗑️ icon then confirm |
+
+### Filtering
+```
+[All] ← [Active] ← [Completed]
+```
+
+---
+
+## 🚀 Performance Improvements
+
+- ✅ `useMemo` used for heavy calculations (filtering & stats)
+- ✅ Optimized re-renders
+- ✅ Clean code & maintainable structure
+- ✅ Accessibility support (ARIA labels)
+
+---
+
+## 📸 Interface Preview
+
+```
+┌─────────────────────────────────┐
+│        📝 My Daily Tasks        │
+├─────────────────────────────────┤
+│ [Add new task...]      [Add]    │
+├─────────────────────────────────┤
+│ [All(5)] [Active(3)] [Done(2)]  │
+├─────────────────────────────────┤
+│ ☐ Task 1                     ✏️🗑️│
+│ ☑ Task 2 (Completed)         ✏️🗑️│
+│ ☐ Task 3                     ✏️🗑️│
+├─────────────────────────────────┤
+│              [Clear Completed]  │
+└─────────────────────────────────┘
+```
+
+---
+
+## 📝 License
+
+This project is open source and available for personal and educational use.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please open an Issue or Pull Request for any improvements.
+
+---
+
+**Built with ❤️ using React & Material-UI**
